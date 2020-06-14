@@ -12,7 +12,7 @@
     "build": "src/*.js"
   },
   "author": "Oli414",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.9.5",
