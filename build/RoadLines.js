@@ -253,7 +253,7 @@ var main = function main() {
                     width: width,
                     height: buttonsHeight + 20,
                     widgets: [{
-                        type: 'label',
+                        type: 'checkbox',
                         name: 'label-description',
                         x: 3,
                         y: 23,
@@ -360,7 +360,8 @@ var main = function main() {
 
 registerPlugin({
     name: 'Road Lines',
-    version: '1.0',
+    version: '1.1',
+    licence: 'MIT',
     authors: ['Oli414'],
     type: 'local',
     main: main
