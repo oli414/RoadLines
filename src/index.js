@@ -148,7 +148,7 @@ let main = function () {
                     height: buttonsHeight + 20,
                     widgets: [
                         {
-                            type: 'checkbox',
+                            type: 'label',
                             name: 'label-description',
                             x: 3,
                             y: 23,

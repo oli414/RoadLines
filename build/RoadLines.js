@@ -253,7 +253,7 @@ var main = function main() {
                     width: width,
                     height: buttonsHeight + 20,
                     widgets: [{
-                        type: 'checkbox',
+                        type: 'label',
                         name: 'label-description',
                         x: 3,
                         y: 23,
