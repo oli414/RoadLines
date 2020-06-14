@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rollup ./src/index.js --file ./build/index.js && babel ./build/index.js --out-file ./build/RoadLines.js && cpy ./build/RoadLines.js ../../plugin/ --rename=RoadLines.js",
+    "build": "rollup ./src/index.js --file ./build/RoadLines.js && babel ./build/RoadLines.js --out-file ./build/RoadLines.js && cpy ./build/RoadLines.js ../../plugin/ --rename=RoadLines.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "npm-watch"
   },
