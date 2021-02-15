@@ -115,7 +115,6 @@ let main = function () {
                         return;
                     }
                     if (e.isDown) {
-                        console.log(e.mapCoords);
                         currentCoord = e.mapCoords;
                         selectTheMap();
                     } else {

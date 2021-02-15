@@ -59,26 +59,15 @@ class MapHelper {
     }
 
     static SetPrimaryTileColor(tile, elementIndex, color) {
-        let data = tile.data;
-        let typeFieldIndex = 6;
-        data[16 * elementIndex + typeFieldIndex] = color;
-        tile.data = data;
+        tile.elements[elementIndex].primaryColour = color;
     }
 
     static SetTileElementRotation(tile, elementIndex, orientation) {
-        let data = tile.data;
-        let typeFieldIndex = 0;
-        let directionMask = 3;
-        data[16 * elementIndex + typeFieldIndex] &= ~directionMask;
-        data[16 * elementIndex + typeFieldIndex] |= orientation & directionMask;
-        tile.data = data;
+        tile.elements[elementIndex].direction = orientation;
     }
 
     static GetTileElementRotation(tile, elementIndex) {
-        let data = tile.data;
-        let typeFieldIndex = 0;
-        let directionMask = 3;
-        return (data[16 * elementIndex + typeFieldIndex] & directionMask);
+        return tile.elements[elementIndex].direction;
     }
 }
 

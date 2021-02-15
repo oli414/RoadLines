@@ -80,28 +80,17 @@ var MapHelper = function () {
     }, {
         key: "SetPrimaryTileColor",
         value: function SetPrimaryTileColor(tile, elementIndex, color) {
-            var data = tile.data;
-            var typeFieldIndex = 6;
-            data[16 * elementIndex + typeFieldIndex] = color;
-            tile.data = data;
+            tile.elements[elementIndex].primaryColour = color;
         }
     }, {
         key: "SetTileElementRotation",
         value: function SetTileElementRotation(tile, elementIndex, orientation) {
-            var data = tile.data;
-            var typeFieldIndex = 0;
-            var directionMask = 3;
-            data[16 * elementIndex + typeFieldIndex] &= ~directionMask;
-            data[16 * elementIndex + typeFieldIndex] |= orientation & directionMask;
-            tile.data = data;
+            tile.elements[elementIndex].direction = orientation;
         }
     }, {
         key: "GetTileElementRotation",
         value: function GetTileElementRotation(tile, elementIndex) {
-            var data = tile.data;
-            var typeFieldIndex = 0;
-            var directionMask = 3;
-            return data[16 * elementIndex + typeFieldIndex] & directionMask;
+            return tile.elements[elementIndex].direction;
         }
     }]);
 
@@ -222,7 +211,6 @@ var main = function main() {
                         return;
                     }
                     if (e.isDown) {
-                        console.log(e.mapCoords);
                         currentCoord = e.mapCoords;
                         selectTheMap();
                     } else {
