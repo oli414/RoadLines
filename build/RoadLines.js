@@ -367,7 +367,7 @@ registerPlugin({
     licence: 'MIT',
     authors: ['Oli414'],
     type: 'local',
-    minApiVersion: 39,
+    minApiVersion: 34,
     targetApiVersion: 39,
     main: main
 });
