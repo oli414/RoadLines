@@ -9,13 +9,13 @@ let currentCoord;
 let direction = 0;
 
 let lineStyle = 0;
-let lineColor = 0;
+let lineColor = 2;
 const lineStyles = [
-    "rct2.walllt32",
-    "rct2.walllt32",
-    "rct2.wallrh32",
-    "rct2.wc17",
-    "rct2.wc17"
+    "rct2.scenery_wall.walllt32",
+    "rct2.scenery_wall.walllt32",
+    "rct2.scenery_wall.wallrh32",
+    "rct2.scenery_wall.wc17",
+    "rct2.scenery_wall.wc17"
 ];
 const lineStyleHeights = [
     4,
@@ -30,9 +30,6 @@ const striped = [
     false,
     false,
     true
-];
-const colors = [
-    2, 18, 6, 1, 0
 ];
 
 function selectTheMap() {
@@ -76,13 +73,13 @@ function finishSelection() {
             if ((viewRotation === 0 && x !== left) || (viewRotation === 1 && y !== bottom)) {
                 let elementN = MapHelper.PlaceWall(tile, roadLineWall, surfaceHeight - lineStyleHeights[lineStyle]);
                 MapHelper.SetTileElementRotation(tile, elementN._index, 0 + viewRotation);
-                MapHelper.SetPrimaryTileColor(tile, elementN._index, colors[lineColor]);
+                MapHelper.SetPrimaryTileColor(tile, elementN._index, lineColor);
             }
 
             if ((viewRotation === 0 && x !== right) || (viewRotation === 1 && y !== top)) {
                 let elementS = MapHelper.PlaceWall(tile, roadLineWall, surfaceHeight - lineStyleHeights[lineStyle]);
                 MapHelper.SetTileElementRotation(tile, elementS._index, 2 + viewRotation);
-                MapHelper.SetPrimaryTileColor(tile, elementS._index, colors[lineColor]);
+                MapHelper.SetPrimaryTileColor(tile, elementS._index, lineColor);
             }
         }
     }
@@ -138,13 +135,47 @@ let main = function () {
             if (window == null) {
                 const width = 300;
                 const buttonWidth = 50;
-                const switchWidth = 32;
+                const switchWidth = 46;
                 const buttonsHeight = 40 + 18 * 2;
+                
+                let buttonB;
+                let buttonA;
+                buttonA = {
+                    type: 'button',
+                    image: 5636,
+                    isPressed: direction == 0,
+                    name: "button-left",
+                    x: 3 + 60,
+                    y: buttonsHeight,
+                    width: switchWidth,
+                    height: 26,
+                    onClick: function () {
+                        window.findWidget(buttonA.name).isPressed = true;
+                        window.findWidget(buttonB.name).isPressed = false;
+                        direction = 0;
+                    }
+                };
+                buttonB = {
+                    type: 'button',
+                    image: 5637,
+                    isPressed: direction == 1,
+                    name: "button-right",
+                    x: 3 + switchWidth + 8 + 60,
+                    y: buttonsHeight,
+                    width: switchWidth,
+                    height: 26,
+                    onClick: function () {
+                        window.findWidget(buttonB.name).isPressed = true;
+                        window.findWidget(buttonA.name).isPressed = false;
+                        direction = 1;
+                    }
+                }
+                
                 window = ui.openWindow({
                     classification: 'park',
                     title: "Road Lines",
                     width: width,
-                    height: buttonsHeight + 20,
+                    height: buttonsHeight + 32,
                     widgets: [
                         {
                             type: 'label',
@@ -159,7 +190,7 @@ let main = function () {
                             type: 'button',
                             name: "button-cancel",
                             x: width - buttonWidth - 6,
-                            y: buttonsHeight,
+                            y: buttonsHeight + 12,
                             width: buttonWidth,
                             height: 16,
                             text: "Cancel",
@@ -177,30 +208,8 @@ let main = function () {
                             height: 26,
                             text: "Direction:"
                         },
-                        {
-                            type: 'button',
-                            name: "button-left",
-                            x: 3 + 60,
-                            y: buttonsHeight,
-                            width: switchWidth,
-                            height: 16,
-                            text: "\\",
-                            onClick: function () {
-                                direction = 0;
-                            }
-                        },
-                        {
-                            type: 'button',
-                            name: "button-right",
-                            x: 3 + switchWidth + 8 + 60,
-                            y: buttonsHeight,
-                            width: switchWidth,
-                            height: 16,
-                            text: "/",
-                            onClick: function () {
-                                direction = 1;
-                            }
-                        },
+                        buttonA,
+                        buttonB,
                         {
                             type: 'label',
                             name: 'label-style',
@@ -234,15 +243,13 @@ let main = function () {
                             text: "Color:"
                         },
                         {
-                            type: "dropdown",
+                            type: "colourpicker",
                             x: 3 + 60,
                             y: 40 + 18,
                             width: width - 6 - (3 + 60),
                             height: 12,
                             name: "line_color",
-                            text: "",
-                            items: ["White", "Yellow", "Blue", "Grey", "Black"],
-                            selectedIndex: lineColor,
+                            colour: lineColor,
                             onChange: function (e) {
                                 lineColor = e;
                             }
@@ -265,9 +272,11 @@ let main = function () {
 
 registerPlugin({
     name: 'Road Lines',
-    version: '1.1',
+    version: '1.2',
     licence: 'MIT',
     authors: ['Oli414'],
     type: 'local',
+    minApiVersion: 39,
+    targetApiVersion: 39,
     main: main
 }); 

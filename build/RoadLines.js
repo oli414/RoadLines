@@ -126,11 +126,10 @@ var currentCoord = void 0;
 var direction = 0;
 
 var lineStyle = 0;
-var lineColor = 0;
-var lineStyles = ["rct2.walllt32", "rct2.walllt32", "rct2.wallrh32", "rct2.wc17", "rct2.wc17"];
+var lineColor = 2;
+var lineStyles = ["rct2.scenery_wall.walllt32", "rct2.scenery_wall.walllt32", "rct2.scenery_wall.wallrh32", "rct2.scenery_wall.wc17", "rct2.scenery_wall.wc17"];
 var lineStyleHeights = [4, 4, 4, 2, 2];
 var striped = [false, true, false, false, true];
-var colors = [2, 18, 6, 1, 0];
 
 function selectTheMap() {
     var left = Math.min(downCoord.x, currentCoord.x);
@@ -172,13 +171,13 @@ function finishSelection() {
             if (viewRotation === 0 && x !== left || viewRotation === 1 && y !== bottom) {
                 var elementN = MapHelper.PlaceWall(tile, roadLineWall, surfaceHeight - lineStyleHeights[lineStyle]);
                 MapHelper.SetTileElementRotation(tile, elementN._index, 0 + viewRotation);
-                MapHelper.SetPrimaryTileColor(tile, elementN._index, colors[lineColor]);
+                MapHelper.SetPrimaryTileColor(tile, elementN._index, lineColor);
             }
 
             if (viewRotation === 0 && x !== right || viewRotation === 1 && y !== top) {
                 var elementS = MapHelper.PlaceWall(tile, roadLineWall, surfaceHeight - lineStyleHeights[lineStyle]);
                 MapHelper.SetTileElementRotation(tile, elementS._index, 2 + viewRotation);
-                MapHelper.SetPrimaryTileColor(tile, elementS._index, colors[lineColor]);
+                MapHelper.SetPrimaryTileColor(tile, elementS._index, lineColor);
             }
         }
     }
@@ -233,13 +232,47 @@ var main = function main() {
             if (window == null) {
                 var width = 300;
                 var buttonWidth = 50;
-                var switchWidth = 32;
+                var switchWidth = 46;
                 var buttonsHeight = 40 + 18 * 2;
+
+                var buttonB = void 0;
+                var buttonA = void 0;
+                buttonA = {
+                    type: 'button',
+                    image: 5636,
+                    isPressed: direction == 0,
+                    name: "button-left",
+                    x: 3 + 60,
+                    y: buttonsHeight,
+                    width: switchWidth,
+                    height: 26,
+                    onClick: function onClick() {
+                        window.findWidget(buttonA.name).isPressed = true;
+                        window.findWidget(buttonB.name).isPressed = false;
+                        direction = 0;
+                    }
+                };
+                buttonB = {
+                    type: 'button',
+                    image: 5637,
+                    isPressed: direction == 1,
+                    name: "button-right",
+                    x: 3 + switchWidth + 8 + 60,
+                    y: buttonsHeight,
+                    width: switchWidth,
+                    height: 26,
+                    onClick: function onClick() {
+                        window.findWidget(buttonB.name).isPressed = true;
+                        window.findWidget(buttonA.name).isPressed = false;
+                        direction = 1;
+                    }
+                };
+
                 window = ui.openWindow({
                     classification: 'park',
                     title: "Road Lines",
                     width: width,
-                    height: buttonsHeight + 20,
+                    height: buttonsHeight + 32,
                     widgets: [{
                         type: 'label',
                         name: 'label-description',
@@ -252,7 +285,7 @@ var main = function main() {
                         type: 'button',
                         name: "button-cancel",
                         x: width - buttonWidth - 6,
-                        y: buttonsHeight,
+                        y: buttonsHeight + 12,
                         width: buttonWidth,
                         height: 16,
                         text: "Cancel",
@@ -267,29 +300,7 @@ var main = function main() {
                         width: width - 6,
                         height: 26,
                         text: "Direction:"
-                    }, {
-                        type: 'button',
-                        name: "button-left",
-                        x: 3 + 60,
-                        y: buttonsHeight,
-                        width: switchWidth,
-                        height: 16,
-                        text: "\\",
-                        onClick: function onClick() {
-                            direction = 0;
-                        }
-                    }, {
-                        type: 'button',
-                        name: "button-right",
-                        x: 3 + switchWidth + 8 + 60,
-                        y: buttonsHeight,
-                        width: switchWidth,
-                        height: 16,
-                        text: "/",
-                        onClick: function onClick() {
-                            direction = 1;
-                        }
-                    }, {
+                    }, buttonA, buttonB, {
                         type: 'label',
                         name: 'label-style',
                         x: 3,
@@ -319,15 +330,13 @@ var main = function main() {
                         height: 26,
                         text: "Color:"
                     }, {
-                        type: "dropdown",
+                        type: "colourpicker",
                         x: 3 + 60,
                         y: 40 + 18,
                         width: width - 6 - (3 + 60),
                         height: 12,
                         name: "line_color",
-                        text: "",
-                        items: ["White", "Yellow", "Blue", "Grey", "Black"],
-                        selectedIndex: lineColor,
+                        colour: lineColor,
                         onChange: function onChange(e) {
                             lineColor = e;
                         }
@@ -348,9 +357,11 @@ var main = function main() {
 
 registerPlugin({
     name: 'Road Lines',
-    version: '1.1',
+    version: '1.2',
     licence: 'MIT',
     authors: ['Oli414'],
     type: 'local',
+    minApiVersion: 39,
+    targetApiVersion: 39,
     main: main
 });
