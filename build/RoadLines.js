@@ -128,6 +128,12 @@ var direction = 0;
 var lineStyle = 0;
 var lineColor = 2;
 var lineStyles = ["rct2.scenery_wall.walllt32", "rct2.scenery_wall.walllt32", "rct2.scenery_wall.wallrh32", "rct2.scenery_wall.wc17", "rct2.scenery_wall.wc17"];
+
+// Object IDs were changed in NSF
+if (context.apiVersion < 39) {
+    lineStyles = ["rct2.walllt32", "rct2.walllt32", "rct2.wallrh32", "rct2.wc17", "rct2.wc17"];
+}
+
 var lineStyleHeights = [4, 4, 4, 2, 2];
 var striped = [false, true, false, false, true];
 
@@ -357,7 +363,7 @@ var main = function main() {
 
 registerPlugin({
     name: 'Road Lines',
-    version: '1.2',
+    version: '1.2.1',
     licence: 'MIT',
     authors: ['Oli414'],
     type: 'local',

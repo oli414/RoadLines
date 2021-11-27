@@ -10,13 +10,25 @@ let direction = 0;
 
 let lineStyle = 0;
 let lineColor = 2;
-const lineStyles = [
+let lineStyles = [
     "rct2.scenery_wall.walllt32",
     "rct2.scenery_wall.walllt32",
     "rct2.scenery_wall.wallrh32",
     "rct2.scenery_wall.wc17",
     "rct2.scenery_wall.wc17"
 ];
+
+// Object IDs were changed in NSF
+if (context.apiVersion < 39) {
+    lineStyles = [
+        "rct2.walllt32",
+        "rct2.walllt32",
+        "rct2.wallrh32",
+        "rct2.wc17",
+        "rct2.wc17"
+    ];
+}
+
 const lineStyleHeights = [
     4,
     4,
@@ -272,7 +284,7 @@ let main = function () {
 
 registerPlugin({
     name: 'Road Lines',
-    version: '1.2',
+    version: '1.2.1',
     licence: 'MIT',
     authors: ['Oli414'],
     type: 'local',
